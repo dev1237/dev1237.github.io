@@ -4,160 +4,311 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Devesh P.K.</title>
-<meta name="description" content="Devesh P.K. — network security and infrastructure engineer. Censorship measurement at IIT Bombay, high-availability infrastructure, network VAPT.">
-<meta property="og:title" content="Devesh P.K. — Network Security & Infrastructure">
-<meta property="og:description" content="Packet-level work across TCP/IP, TLS, DNS and BGP — from DPI and middlebox analysis at IIT Bombay to HA service deployment on RHEL.">
+<meta name="description" content="Devesh P.K. — network security engineer. I measure networks, break into them with permission, and build the parts that shouldn't go down.">
+<meta property="og:title" content="Devesh P.K. — finding the box in the middle">
+<meta property="og:description" content="Network security engineer. Censorship measurement at IIT Bombay, high-availability infrastructure, network VAPT.">
 <meta property="og:type" content="website">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%230f766e'/><text x='16' y='22' font-family='monospace' font-size='15' font-weight='700' fill='white' text-anchor='middle'>pk</text></svg>">
+<meta name="theme-color" content="#0a0b0d">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%230a0b0d'/><circle cx='9' cy='16' r='3' fill='%23c3f53c'/><circle cx='23' cy='16' r='3' fill='%23ff5f56'/><path d='M12 16h8' stroke='%23c3f53c' stroke-width='2'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #fafaf9;
-  --surface: #ffffff;
-  --text: #1c1917;
-  --muted: #57534e;
-  --faint: #a8a29e;
-  --line: #e7e5e4;
-  --accent: #0f766e;
-  --accent-soft: #ccfbf1;
-  --chip: #f5f5f4;
-  --sans: "IBM Plex Sans", system-ui, -apple-system, sans-serif;
-  --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
-}
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #0c0f0f;
-    --surface: #131817;
-    --text: #e7e5e4;
-    --muted: #a8a29e;
-    --faint: #6b6560;
-    --line: #262b2a;
-    --accent: #2dd4bf;
-    --accent-soft: #11302c;
-    --chip: #1a201f;
-  }
+  --bg: #0a0b0d;
+  --bg-2: #0e1013;
+  --panel: #121519;
+  --panel-2: #161a1f;
+  --line: #1e232a;
+  --line-2: #2a3039;
+  --text: #ebe9e4;
+  --muted: #9aa1aa;
+  --faint: #5f6670;
+  --sig: #c3f53c;
+  --sig-dim: rgba(195, 245, 60, 0.12);
+  --rst: #ff5f56;
+  --rst-dim: rgba(255, 95, 86, 0.12);
+  --sans: "Geist", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; scroll-padding-top: 64px; }
 body {
-  margin: 0;
-  background: var(--bg);
-  color: var(--text);
-  font-family: var(--sans);
-  font-size: 16px;
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
+  margin: 0; background: var(--bg); color: var(--text);
+  font-family: var(--sans); font-size: 16px; line-height: 1.65;
+  -webkit-font-smoothing: antialiased; overflow-x: hidden;
 }
-a { color: var(--accent); text-decoration: none; }
+::selection { background: var(--sig); color: var(--bg); }
+a { color: var(--sig); text-decoration: none; }
 a:hover { text-decoration: underline; text-underline-offset: 3px; }
-.wrap { max-width: 860px; margin: 0 auto; padding: 0 20px; }
+.mono { font-family: var(--mono); }
+.wrap { max-width: 1040px; margin: 0 auto; padding: 0 24px; }
 
-/* nav */
+/* ───────── nav ───────── */
 nav {
-  position: sticky; top: 0; z-index: 10;
-  background: color-mix(in srgb, var(--bg) 85%, transparent);
-  backdrop-filter: blur(10px);
+  position: fixed; inset: 0 0 auto 0; z-index: 20;
+  background: linear-gradient(var(--bg) 0%, rgba(10,11,13,0.82) 100%);
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--line);
 }
-nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 56px; gap: 16px; }
-nav .brand { font-family: var(--mono); font-weight: 600; color: var(--text); }
-nav .brand span { color: var(--accent); }
-nav ul { display: flex; gap: 20px; list-style: none; margin: 0; padding: 0; font-size: 14px; }
+nav .wrap { height: 56px; display: flex; align-items: center; justify-content: space-between; }
+.logo { font-family: var(--mono); font-weight: 600; color: var(--text); font-size: 15px; letter-spacing: -0.01em; }
+.logo b { color: var(--sig); font-weight: 600; }
+nav ul { display: flex; gap: 22px; list-style: none; margin: 0; padding: 0; font-family: var(--mono); font-size: 13px; }
 nav ul a { color: var(--muted); }
 nav ul a:hover { color: var(--text); text-decoration: none; }
+nav ul a.hot { color: var(--sig); }
 
-/* hero */
-header.hero { padding: 72px 0 48px; }
-.prompt { font-family: var(--mono); font-size: 14px; color: var(--accent); margin-bottom: 12px; }
-h1 { font-size: clamp(36px, 7vw, 56px); line-height: 1.05; margin: 0 0 16px; letter-spacing: -0.02em; }
-.lede { font-size: 19px; color: var(--muted); max-width: 640px; margin: 0 0 28px; }
-.lede strong { color: var(--text); font-weight: 600; }
+/* ───────── hero ───────── */
+.hero { position: relative; min-height: 100vh; min-height: 100svh; display: flex; align-items: flex-end; overflow: hidden; }
+#net { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.hero::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background:
+    linear-gradient(90deg, var(--bg) 0%, rgba(10,11,13,0.86) 30%, rgba(10,11,13,0.25) 62%, rgba(10,11,13,0) 100%),
+    linear-gradient(0deg, var(--bg) 0%, rgba(10,11,13,0) 30%);
+}
+.hero .wrap { position: relative; z-index: 2; width: 100%; padding-bottom: 12vh; padding-top: 120px; }
+.meta { font-family: var(--mono); font-size: 13px; color: var(--muted); margin-bottom: 22px; display: flex; flex-wrap: wrap; gap: 6px 14px; }
+.meta .live { color: var(--sig); }
+.meta .live::before {
+  content: ""; display: inline-block; width: 7px; height: 7px; border-radius: 50%;
+  background: var(--sig); margin-right: 8px; vertical-align: 1px; animation: blink 1.6s infinite;
+}
+@keyframes blink { 50% { opacity: 0.25; } }
+h1 { font-size: clamp(54px, 10.5vw, 128px); line-height: 0.92; letter-spacing: -0.045em; margin: 0 0 26px; font-weight: 700; }
+h1 span { color: var(--sig); }
+.tagline { font-size: clamp(22px, 3vw, 30px); line-height: 1.25; letter-spacing: -0.02em; margin: 0 0 14px; max-width: 620px; font-weight: 500; }
+.tagline em { font-style: normal; color: var(--rst); }
+.sub { color: var(--muted); max-width: 540px; margin: 0 0 32px; font-size: 17px; }
 .cta { display: flex; flex-wrap: wrap; gap: 10px; }
 .btn {
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 9px 16px; border-radius: 8px;
-  border: 1px solid var(--line); background: var(--surface);
-  color: var(--text); font-size: 14px; font-weight: 500;
+  display: inline-flex; align-items: center; gap: 9px; height: 42px; padding: 0 18px;
+  border: 1px solid var(--line-2); border-radius: 999px; background: rgba(18,21,25,0.7);
+  color: var(--text); font-family: var(--mono); font-size: 13px; font-weight: 500;
+  transition: border-color .2s, background .2s;
 }
-.btn:hover { border-color: var(--accent); text-decoration: none; }
-.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--bg); }
-.btn svg { width: 16px; height: 16px; fill: currentColor; }
+.btn:hover { border-color: var(--sig); text-decoration: none; }
+.btn.primary { background: var(--sig); border-color: var(--sig); color: #0a0b0d; }
+.btn.primary:hover { background: #d4ff5c; }
+.btn svg { width: 15px; height: 15px; fill: currentColor; }
+.scroll-hint { position: absolute; right: 24px; bottom: 28px; z-index: 2; font-family: var(--mono); font-size: 12px; color: var(--faint); }
+.legend { position: absolute; right: 24px; top: 80px; z-index: 2; font-family: var(--mono); font-size: 11px; color: var(--faint); display: grid; gap: 6px; text-align: right; }
+.legend i { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-left: 8px; vertical-align: 0; }
 
-/* stats */
-.stats {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
-  background: var(--line); border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
-  margin: 8px 0 0;
+/* ───────── sections ───────── */
+section { padding: 120px 0 0; }
+.kicker { font-family: var(--mono); font-size: 13px; color: var(--sig); margin-bottom: 14px; }
+.kicker span { color: var(--faint); }
+h2 { font-size: clamp(34px, 5vw, 54px); line-height: 1.02; letter-spacing: -0.035em; margin: 0 0 40px; font-weight: 650; max-width: 820px; }
+h2 .dim { color: var(--faint); }
+h3 { letter-spacing: -0.015em; }
+
+/* origin */
+.origin { display: grid; grid-template-columns: 1.25fr 1fr; gap: 56px; align-items: start; }
+.prose p { font-size: 19px; line-height: 1.7; color: #c9c7c2; margin: 0 0 22px; }
+.prose p:first-child { font-size: 23px; line-height: 1.5; color: var(--text); letter-spacing: -0.01em; }
+.prose mark { background: none; color: var(--sig); }
+.prose .r { color: var(--rst); }
+.card-term { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; font-family: var(--mono); font-size: 13.5px; position: sticky; top: 88px; }
+.term-bar { display: flex; align-items: center; gap: 7px; padding: 12px 14px; border-bottom: 1px solid var(--line); background: var(--panel-2); }
+.term-bar i { width: 10px; height: 10px; border-radius: 50%; background: var(--line-2); }
+.term-bar span { margin-left: 8px; color: var(--faint); font-size: 12px; }
+.term-body { padding: 18px 20px 20px; }
+.ps { color: var(--sig); }
+.kv { display: grid; grid-template-columns: 92px 1fr; gap: 7px 12px; margin-top: 12px; }
+.kv dt { color: var(--faint); }
+.kv dd { margin: 0; color: var(--text); }
+.cursor { display: inline-block; width: 8px; height: 15px; background: var(--sig); vertical-align: -2px; animation: blink 1.1s steps(1) infinite; }
+
+/* trace */
+.trace { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; font-family: var(--mono); font-size: 14px; }
+.trace .term-body { padding: 20px 8px 14px; }
+.trace .line { padding: 0 16px; color: var(--muted); }
+.trace .line.dim { color: var(--faint); margin-bottom: 10px; }
+.hop { border-top: 1px solid transparent; opacity: 0; transform: translateY(6px); transition: opacity .45s, transform .45s, background .2s; border-radius: 8px; }
+.trace.on .hop { opacity: 1; transform: none; }
+.hop summary {
+  list-style: none; cursor: pointer; display: grid; grid-template-columns: 28px 230px 170px 1fr 18px; gap: 12px;
+  padding: 11px 16px; align-items: center; border-radius: 8px;
 }
-.stat { background: var(--surface); padding: 18px 16px; }
-.stat b { display: block; font-family: var(--mono); font-size: 24px; font-weight: 600; color: var(--accent); }
-.stat span { font-size: 13px; color: var(--muted); line-height: 1.4; display: block; margin-top: 2px; }
+.hop summary::-webkit-details-marker { display: none; }
+.hop summary:hover, .hop[open] summary { background: var(--panel-2); }
+.hop summary:focus-visible { outline: 1px solid var(--sig); }
+.hop .n { color: var(--faint); text-align: right; }
+.hop .host { color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.hop .rtt { color: var(--sig); white-space: nowrap; }
+.hop .note { color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-family: var(--sans); font-size: 15px; }
+.hop .plus { color: var(--faint); transition: transform .2s; text-align: center; }
+.hop[open] .plus { transform: rotate(45deg); color: var(--sig); }
+.hop-body { padding: 4px 16px 18px 72px; font-family: var(--sans); font-size: 16px; color: #c9c7c2; max-width: 820px; }
+.hop-body p { margin: 0 0 8px; }
+.hop-body a { font-family: var(--mono); font-size: 13px; }
+.hop.next .rtt { color: var(--rst); }
+.hop.unk .host, .hop.unk .rtt { color: var(--faint); }
+.pill { display: inline-block; font-family: var(--mono); font-size: 11px; padding: 1px 8px; border-radius: 99px; border: 1px solid; margin-left: 8px; vertical-align: 1px; }
+.pill.r { color: var(--rst); border-color: rgba(255,95,86,.4); }
+.pill.g { color: var(--sig); border-color: rgba(195,245,60,.4); }
 
-/* sections */
-section { padding: 48px 0 8px; }
-h2 {
-  font-family: var(--mono); font-size: 13px; font-weight: 500; text-transform: uppercase;
-  letter-spacing: 0.12em; color: var(--faint); margin: 0 0 20px;
-  display: flex; align-items: center; gap: 12px;
+/* hunt */
+.hunt-head { display: flex; flex-wrap: wrap; gap: 8px 18px; font-family: var(--mono); font-size: 13px; color: var(--muted); margin: -22px 0 48px; }
+.steps { display: grid; gap: 18px; }
+.step { display: grid; grid-template-columns: 300px 1fr; gap: 40px; padding: 32px; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; }
+.step .lbl { font-family: var(--mono); font-size: 12px; color: var(--faint); margin-bottom: 10px; }
+.step h3 { font-size: 24px; margin: 0 0 12px; line-height: 1.2; }
+.step p { color: var(--muted); margin: 0; font-size: 15.5px; }
+.step p + p { margin-top: 10px; }
+
+.testbed { display: flex; align-items: center; gap: 0; font-family: var(--mono); font-size: 13px; }
+.box { border: 1px solid var(--line-2); border-radius: 10px; padding: 14px 16px; background: var(--bg-2); text-align: center; min-width: 96px; }
+.box b { display: block; font-weight: 500; color: var(--text); }
+.box small { color: var(--faint); font-size: 11px; }
+.box.mid { border-color: rgba(255,95,86,.5); background: var(--rst-dim); flex: 1.4; }
+.box.mid b { color: var(--rst); }
+.wire { flex: 1; height: 1px; background: var(--line-2); position: relative; min-width: 24px; }
+.wire::after { content: ""; position: absolute; top: -3px; width: 7px; height: 7px; border-radius: 50%; background: var(--sig); animation: run 2.4s linear infinite; }
+.wire.b::after { animation-delay: 1.2s; }
+@keyframes run { from { left: 0; } to { left: calc(100% - 7px); } }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; justify-content: center; }
+.chips span { font-family: var(--mono); font-size: 11px; padding: 2px 8px; border-radius: 5px; background: var(--panel-2); border: 1px solid var(--line-2); color: var(--muted); }
+.chips.r span { color: var(--rst); border-color: rgba(255,95,86,.3); background: transparent; }
+
+.funnel { display: grid; gap: 16px; }
+.frow .top { display: flex; justify-content: space-between; gap: 12px; font-family: var(--mono); font-size: 13px; margin-bottom: 6px; }
+.frow .top b { font-size: 22px; font-weight: 500; color: var(--text); letter-spacing: -0.02em; }
+.frow .top span { color: var(--faint); align-self: flex-end; text-align: right; }
+.bar { height: 10px; background: var(--bg-2); border-radius: 99px; overflow: hidden; }
+.bar i { display: block; height: 100%; width: 0; border-radius: 99px; background: var(--sig); transition: width 1.4s cubic-bezier(.2,.7,.1,1); }
+.frow.last .bar i { background: var(--rst); }
+.funnel small { font-family: var(--mono); color: var(--faint); font-size: 11px; }
+
+.ttl { font-family: var(--mono); font-size: 12px; }
+.ttl-row { display: flex; align-items: flex-end; gap: 0; margin-bottom: 10px; }
+.t { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 8px; color: var(--faint); position: relative; }
+.t::before { content: ""; position: absolute; top: 5px; left: 0; right: 0; height: 1px; background: var(--line-2); z-index: 0; }
+.t:first-child::before { left: 50%; }
+.t:last-child::before { right: 50%; }
+.t i { width: 11px; height: 11px; border-radius: 50%; background: var(--panel); border: 1px solid var(--line-2); position: relative; z-index: 1; }
+.t.ok i { background: var(--sig); border-color: var(--sig); }
+.t.hit i { background: var(--rst); border-color: var(--rst); box-shadow: 0 0 0 5px var(--rst-dim); }
+.t.hit { color: var(--rst); }
+.ttl-note { display: flex; justify-content: space-between; gap: 12px; color: var(--muted); font-size: 12px; flex-wrap: wrap; }
+.ttl-note b { color: var(--rst); font-weight: 500; }
+
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; margin-top: 18px; }
+.stat { background: var(--panel); padding: 22px 20px; }
+.stat b { display: block; font-size: 30px; font-weight: 600; letter-spacing: -0.03em; color: var(--text); }
+.stat span { font-size: 13px; color: var(--muted); line-height: 1.4; display: block; margin-top: 4px; }
+
+/* builds */
+.builds { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.build { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 28px; display: flex; flex-direction: column; }
+.build.wide { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1.15fr; gap: 40px; }
+.build .lbl { font-family: var(--mono); font-size: 12px; color: var(--faint); margin-bottom: 10px; }
+.build h3 { font-size: 24px; margin: 0 0 12px; line-height: 1.2; }
+.build p { color: var(--muted); font-size: 15.5px; margin: 0 0 14px; }
+.build ul { color: var(--muted); font-size: 15px; padding-left: 18px; margin: 0 0 16px; }
+.build li { margin: 5px 0; }
+.build li::marker { color: var(--sig); }
+.stack { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; padding-top: 6px; }
+.stack span { font-family: var(--mono); font-size: 11px; color: var(--muted); background: var(--bg-2); border: 1px solid var(--line); padding: 2px 9px; border-radius: 5px; }
+.links { display: flex; gap: 18px; flex-wrap: wrap; font-family: var(--mono); font-size: 13px; margin-top: 16px; }
+
+/* failover demo */
+.demo { background: var(--bg-2); border: 1px solid var(--line); border-radius: 12px; padding: 20px; font-family: var(--mono); font-size: 12px; display: flex; flex-direction: column; }
+.demo-top { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 18px; color: var(--faint); }
+.demo-btn {
+  font: inherit; font-size: 12px; cursor: pointer; border-radius: 999px; padding: 7px 14px;
+  background: transparent; color: var(--rst); border: 1px solid rgba(255,95,86,.5);
 }
-h2::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+.demo-btn:hover { background: var(--rst-dim); }
+.demo-btn.restore { color: var(--sig); border-color: rgba(195,245,60,.5); }
+.demo-btn.restore:hover { background: var(--sig-dim); }
+.demo-btn:disabled { opacity: .4; cursor: default; }
+.vip-lane { position: relative; height: 30px; margin-bottom: 10px; }
+.vip { position: absolute; left: 25%; transform: translateX(-50%); top: 0; padding: 5px 12px; border-radius: 99px; background: var(--sig); color: #0a0b0d; font-weight: 600; white-space: nowrap; transition: left .7s cubic-bezier(.5,0,.2,1), opacity .3s; }
+.vip.float { opacity: .35; }
+.vip.b { left: 75%; }
+.lbs, .bes { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.node { border: 1px solid var(--line-2); border-radius: 10px; padding: 12px; background: var(--panel); transition: border-color .3s, opacity .3s; }
+.node b { display: block; color: var(--text); font-weight: 500; font-size: 13px; }
+.node .st { color: var(--faint); }
+.node .st.m { color: var(--sig); }
+.node.dead { border-color: rgba(255,95,86,.6); opacity: .55; }
+.node.dead .st { color: var(--rst); }
+.links-mid { display: flex; justify-content: center; color: var(--faint); padding: 8px 0; font-size: 11px; }
+.sess { display: flex; gap: 6px; margin-top: 10px; }
+.sess i { width: 10px; height: 10px; border-radius: 3px; background: var(--sig); transition: background .3s; }
+.log { margin-top: 16px; border-top: 1px solid var(--line); padding-top: 12px; min-height: 112px; color: var(--muted); line-height: 1.75; }
+.log .t0 { color: var(--faint); }
+.log .r { color: var(--rst); }
+.log .g { color: var(--sig); }
 
-.item { padding: 0 0 28px; }
-.item + .item { border-top: 1px solid var(--line); padding-top: 24px; }
-.item-head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; flex-wrap: wrap; }
-.item h3 { font-size: 18px; margin: 0; line-height: 1.35; }
-.when { font-family: var(--mono); font-size: 13px; color: var(--faint); white-space: nowrap; }
-.org { color: var(--muted); font-size: 15px; margin: 2px 0 10px; }
-.org a { font-size: 14px; }
-.tag {
-  display: inline-block; font-family: var(--mono); font-size: 11px; font-weight: 500;
-  padding: 2px 8px; border-radius: 99px; background: var(--accent-soft); color: var(--accent);
-  vertical-align: middle; margin-left: 6px;
-}
-ul.points { margin: 0; padding-left: 18px; color: var(--muted); }
-ul.points li { margin: 6px 0; }
-ul.points li::marker { color: var(--accent); }
-code, .mono { font-family: var(--mono); font-size: 0.9em; }
+/* toolkit */
+.tk { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+.dir { background: var(--panel); padding: 22px 22px 24px; }
+.dir h3 { font-family: var(--mono); font-size: 13px; font-weight: 500; color: var(--sig); margin: 0 0 12px; letter-spacing: 0; }
+.dir h3::before { content: "~/"; color: var(--faint); }
+.dir ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.dir li { font-size: 14px; padding: 3px 10px; border-radius: 6px; background: var(--bg-2); border: 1px solid var(--line); color: #cfcdc8; }
+.certs { display: flex; flex-wrap: wrap; gap: 10px 28px; margin-top: 22px; font-family: var(--mono); font-size: 13px; color: var(--muted); }
+.certs b { color: var(--faint); font-weight: 400; }
 
-/* projects */
-.projects { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
-.card {
-  background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 20px;
-  display: flex; flex-direction: column;
-}
-.card h3 { font-size: 16px; margin: 0 0 6px; font-family: var(--mono); }
-.card p { color: var(--muted); font-size: 14px; margin: 0 0 14px; flex: 1; }
-.card .links { font-size: 13px; font-family: var(--mono); display: flex; gap: 14px; flex-wrap: wrap; }
-.stack { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
-.stack span { font-family: var(--mono); font-size: 11px; color: var(--muted); background: var(--chip); padding: 2px 8px; border-radius: 4px; }
+/* contact */
+.contact { padding-bottom: 40px; }
+.contact h2 { font-size: clamp(48px, 9vw, 104px); letter-spacing: -0.045em; line-height: .95; margin-bottom: 48px; }
+.contact h2 span { color: var(--sig); }
+.clinks { border-top: 1px solid var(--line); }
+.clink { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 26px 4px; border-bottom: 1px solid var(--line); color: var(--text); font-size: clamp(20px, 3vw, 30px); letter-spacing: -0.02em; transition: padding .25s, color .25s; }
+.clink:hover { text-decoration: none; color: var(--sig); padding-left: 14px; }
+.clink small { font-family: var(--mono); font-size: 13px; color: var(--faint); letter-spacing: 0; }
+.clink .arr { font-family: var(--mono); font-size: 20px; color: var(--faint); transition: transform .25s, color .25s; }
+.clink:hover .arr { transform: translateX(4px); color: var(--sig); }
 
-/* skills */
-.skills { display: grid; grid-template-columns: 180px 1fr; gap: 14px 24px; }
-.skills dt { font-family: var(--mono); font-size: 13px; color: var(--faint); padding-top: 3px; }
-.skills dd { margin: 0; display: flex; flex-wrap: wrap; gap: 6px; }
-.skills dd span { background: var(--chip); border: 1px solid var(--line); border-radius: 6px; padding: 2px 10px; font-size: 14px; }
+footer { padding: 72px 0 36px; font-family: var(--mono); font-size: 12px; color: var(--faint); }
+footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
 
-.two { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
-.list { list-style: none; padding: 0; margin: 0; }
-.list li { padding: 10px 0; border-bottom: 1px solid var(--line); }
-.list li:last-child { border-bottom: 0; }
-.list .sub { color: var(--muted); font-size: 14px; display: block; }
+.reveal { opacity: 0; transform: translateY(14px); transition: opacity .7s, transform .7s; }
+.reveal.on { opacity: 1; transform: none; }
 
-footer { padding: 56px 0 40px; color: var(--faint); font-size: 14px; }
-footer .wrap { border-top: 1px solid var(--line); padding-top: 24px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
-
-@media (max-width: 720px) {
-  .wrap { padding: 0 16px; }
-  nav ul { display: none; }
-  header.hero { padding: 48px 0 32px; }
-  .lede { font-size: 17px; }
+@media (max-width: 900px) {
+  .origin { grid-template-columns: 1fr; gap: 32px; }
+  .card-term { position: static; }
+  .step { grid-template-columns: 1fr; gap: 22px; padding: 24px; }
+  .builds { grid-template-columns: 1fr; }
+  .build.wide { grid-template-columns: 1fr; gap: 24px; }
+  .tk { grid-template-columns: 1fr 1fr; }
   .stats { grid-template-columns: repeat(2, 1fr); }
-  .skills { grid-template-columns: 1fr; gap: 6px; }
-  .skills dd { margin-bottom: 12px; }
-  .two { grid-template-columns: 1fr; gap: 8px; }
-  .item-head { flex-direction: column; gap: 2px; }
+  .hop summary { grid-template-columns: 22px 1fr auto 16px; }
+  .hop .note { display: none; }
+  .hop-body { padding-left: 50px; }
+}
+@media (max-width: 640px) {
+  .wrap { padding: 0 16px; }
+  nav ul li:not(:last-child) { display: none; }
+  .legend { display: none; }
+  .hero::after { background: linear-gradient(0deg, var(--bg) 0%, rgba(10,11,13,0.9) 45%, rgba(10,11,13,0.35) 100%); }
+  .hero .wrap { padding-bottom: 80px; }
+  section { padding-top: 88px; }
+  .prose p { font-size: 17px; }
+  .prose p:first-child { font-size: 20px; }
+  .trace { font-size: 13px; }
+  .hop summary { padding: 10px 10px; gap: 8px; }
+  .hop .rtt { font-size: 11px; }
+  .hop-body { padding: 2px 12px 16px 40px; font-size: 15px; }
+  .testbed { flex-direction: column; align-items: stretch; }
+  .wire { height: 26px; width: 1px; min-width: 0; align-self: center; flex: none; }
+  .wire::after { left: -3px !important; animation-name: rund; }
+  @keyframes rund { from { top: 0; } to { top: calc(100% - 7px); } }
+  .tk { grid-template-columns: 1fr; }
+  .build, .step { padding: 22px 18px; }
+  .demo { padding: 14px; }
+  .scroll-hint { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal, .hop { opacity: 1 !important; transform: none !important; transition: none !important; }
+  .wire::after, .meta .live::before, .cursor { animation: none; }
 }
 </style>
 </head>
@@ -165,141 +316,293 @@ footer .wrap { border-top: 1px solid var(--line); padding-top: 24px; display: fl
 
 <nav>
   <div class="wrap">
-    <a class="brand" href="#">devesh<span>@</span>pk</a>
+    <a class="logo" href="#top">dpk<b>://</b></a>
     <ul>
-      <li><a href="#experience">Experience</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#skills">Skills</a></li>
-      <li><a href="#contact">Contact</a></li>
+      <li><a href="#origin">origin</a></li>
+      <li><a href="#trace">trace</a></li>
+      <li><a href="#hunt">the hunt</a></li>
+      <li><a href="#builds">builds</a></li>
+      <li><a href="#toolkit">toolkit</a></li>
+      <li><a class="hot" href="#contact">contact</a></li>
     </ul>
   </div>
 </nav>
 
-<main class="wrap">
-
-  <header class="hero">
-    <div class="prompt">$ whoami</div>
-    <h1>Devesh P.K.</h1>
-    <p class="lede">Network security and infrastructure engineer with <strong>packet-level experience across TCP/IP, TLS, DNS and BGP</strong> — from DPI and middlebox analysis at IIT Bombay to high-availability service deployment on RHEL. ECE undergrad at SVNIT Surat.</p>
+<header class="hero" id="top">
+  <canvas id="net" aria-hidden="true"></canvas>
+  <div class="legend" aria-hidden="true">
+    <div>packet<i style="background:var(--sig)"></i></div>
+    <div>middlebox / injected RST<i style="background:var(--rst)"></i></div>
+  </div>
+  <div class="wrap">
+    <div class="meta"><span class="live">capturing</span><span>svnit, surat ⇄ bahrain</span><span>tcp/ip · tls · dns · bgp</span></div>
+    <h1>Devesh <span>P.K.</span></h1>
+    <p class="tagline">I find the <em>box in the middle</em>.</p>
+    <p class="sub">Network security engineer. I measure networks, break into them (with permission), and build the parts that shouldn't go down.</p>
     <div class="cta">
       <a class="btn primary" href="Devesh_PK_Resume.pdf" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24"><path d="M12 16l-5-5h3V4h4v7h3l-5 5zm-7 2h14v2H5v-2z"/></svg>Resume
+        <svg viewBox="0 0 24 24"><path d="M12 16l-5-5h3V4h4v7h3l-5 5zm-7 2h14v2H5v-2z"/></svg>resume.pdf
       </a>
       <a class="btn" href="https://github.com/dev1237" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24"><path d="M12 .5C5.65.5.5 5.65.5 12a11.5 11.5 0 007.86 10.92c.58.1.79-.25.79-.56v-2c-3.2.7-3.87-1.37-3.87-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.76 2.7 1.25 3.36.96.1-.75.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 015.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.4-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0023.5 12C23.5 5.65 18.35.5 12 .5z"/></svg>GitHub
+        <svg viewBox="0 0 24 24"><path d="M12 .5C5.65.5.5 5.65.5 12a11.5 11.5 0 007.86 10.92c.58.1.79-.25.79-.56v-2c-3.2.7-3.87-1.37-3.87-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.76 2.7 1.25 3.36.96.1-.75.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 015.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.4-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0023.5 12C23.5 5.65 18.35.5 12 .5z"/></svg>github
       </a>
       <a class="btn" href="https://www.linkedin.com/in/deveshpk/" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.36V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 110-4.12 2.06 2.06 0 010 4.12zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>LinkedIn
-      </a>
-      <a class="btn" href="mailto:deveshpkk@gmail.com">
-        <svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>Email
+        <svg viewBox="0 0 24 24"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.36V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 110-4.12 2.06 2.06 0 010 4.12zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>linkedin
       </a>
     </div>
-  </header>
-
-  <div class="stats">
-    <div class="stat"><b>6.03M</b><span>UAE IPs measured for on-path censorship</span></div>
-    <div class="stat"><b>509</b><span>censored hosts confirmed across 4 protocols</span></div>
-    <div class="stat"><b>&lt;4s</b><span>HA failover with zero dropped SSH sessions</span></div>
-    <div class="stat"><b>300+</b><span>concurrent SSH sessions after load balancing</span></div>
   </div>
+  <div class="scroll-hint">scroll ↓</div>
+</header>
 
-  <section id="experience">
-    <h2>Experience</h2>
+<main>
 
-    <div class="item">
-      <div class="item-head">
-        <h3>Internet Censorship Measurement &amp; Network Adversary Localization</h3>
-        <span class="when">May – Jul 2026</span>
-      </div>
-      <div class="org">Trust Lab, IIT Bombay · <a href="https://drive.google.com/file/d/1wyRvDdmKZNEnpe1qW-p_96rcS9Fq67z1/view?usp=sharing" target="_blank" rel="noopener">certificate</a> · <a href="https://drive.google.com/file/d/1N8Qf-vL_ZCUBzhkZ17t8FfzlwAozSgUE/view?usp=sharing" target="_blank" rel="noopener">report</a></div>
-      <ul class="points">
-        <li>Engineered a 3-VM middlebox testbed (client–censor–server) emulating on-path censorship via Linux NFQUEUE across HTTP Host, TLS SNI, DNS and STUN (DROP / RST / block-page / forged-answer).</li>
-        <li>Ran a nation-wide UAE measurement: 6.03M IPs → yarrp (593,043 modified-path) → ZMap → 509 confirmed censored hosts across four protocols; characterized the DPI as stateless in the measured set.</li>
-        <li>Attributed the censoring middlebox: TTL-based injector localization despite source-spoofed resets, off-path vs. in-path classification, and an IP-ID side-channel identifying two co-located injectors at the Etisalat (AS8966) backbone.</li>
-        <li>Packaged the pipeline as <span class="mono">phantomprobe</span> — a portable single-binary C tool (libpcap only) that detects censorship, bounds residual-filtering duration, and attributes the middlebox from any vantage.</li>
-      </ul>
-    </div>
-
-    <div class="item">
-      <div class="item-head">
-        <h3>IT Infrastructure Intern <span class="tag">incoming</span></h3>
-        <span class="when">Dec 2026 – Jan 2027</span>
-      </div>
-      <div class="org">Gulf Business Machines (GBM) · Seef, Bahrain</div>
-      <ul class="points">
-        <li>Winter placement across enterprise networking, Linux server platforms and cloud infrastructure delivery.</li>
-      </ul>
-    </div>
-  </section>
-
-  <section id="projects">
-    <h2>Projects &amp; Security Work</h2>
-    <div class="projects">
-      <div class="card">
-        <h3>phantomprobe</h3>
-        <p>Portable C tool for on-path censorship and residual-filtering measurement. Detects censorship, bounds how long residual filtering lasts, and localizes the injecting middlebox from any vantage point.</p>
-        <div class="stack"><span>C</span><span>libpcap</span><span>raw sockets</span><span>TTL / IP-ID</span></div>
-        <div class="links"><a href="https://github.com/dev1237/phantomprobe" target="_blank" rel="noopener">github →</a></div>
-      </div>
-      <div class="card">
-        <h3>HA SSH Gateway</h3>
-        <p>Two-node active/active gateway on RHEL for the SVNIT Electronics Dept. Nginx L4 round-robin over TCP/22 with passive health checks, plus keepalived/VRRP on a floating VIP — removed the LB as a single point of failure and ended server crashes for 150+ users.</p>
-        <div class="stack"><span>RHEL</span><span>Nginx stream</span><span>keepalived</span><span>VRRP</span></div>
-        <div class="links"><a href="https://github.com/dev1237/nginx_round-robin" target="_blank" rel="noopener">round-robin →</a><a href="https://github.com/dev1237/nginx_SPF" target="_blank" rel="noopener">no-SPOF →</a></div>
-      </div>
-      <div class="card">
-        <h3>Institutional Pentest</h3>
-        <p>Found and responsibly disclosed multiple high-severity vulnerabilities in SVNIT's web infrastructure, which led to faculty authorization for a full penetration test. Enumerated LDAP, SMB, FTP and DNS, and delivered remediation guidance.</p>
-        <div class="stack"><span>Metasploit</span><span>Nmap</span><span>LDAP/SMB</span><span>VAPT</span></div>
-        <div class="links"><a href="https://drive.google.com/file/d/1gmT6MsYYnaFczBuqMsk3mMQ4N-sIX8EE/view?usp=drive_link" target="_blank" rel="noopener">documentation →</a></div>
+  <!-- ───────── origin ───────── -->
+  <section id="origin">
+    <div class="wrap">
+      <div class="kicker">01 <span>/ origin</span></div>
+      <h2>Who's on the other end of the wire.</h2>
+      <div class="origin">
+        <div class="prose reveal">
+          <p>I went to school in Bahrain and came to SVNIT Surat for electronics. Somewhere between circuits and signals I got pulled one layer up, into <mark>the network</mark>. Not the apps. The packets.</p>
+          <p>The problems I like have their answer sitting in a header field nobody checked. A TTL that's a few hops short. An IP-ID counter that gives two machines away. A <span class="r">reset packet</span> that claims to come from a server that never sent it.</p>
+          <p>So far that's meant finding holes in my own college's servers (and being allowed to keep looking), keeping a department's SSH box alive for 300 people at once, and spending a summer at IIT Bombay chasing a national censor through a country's internet until I could point at where it sits.</p>
+          <p>Next stop: back to Bahrain this winter, on infrastructure at Gulf Business Machines.</p>
+        </div>
+        <div class="card-term reveal" aria-label="Quick facts">
+          <div class="term-bar"><i></i><i></i><i></i><span>~/.whoami</span></div>
+          <div class="term-body">
+            <div><span class="ps">$</span> cat ~/.whoami</div>
+            <dl class="kv">
+              <dt>name</dt><dd>devesh p.k.</dd>
+              <dt>based</dt><dd>surat, in ⇄ bahrain</dd>
+              <dt>studying</dt><dd>b.tech ece @ svnit '28</dd>
+              <dt>layer</dt><dd>3–4, mostly</dd>
+              <dt>speaks</dt><dd>tcp/ip · tls · dns · bgp</dd>
+              <dt>method</dt><dd>measure first, conclude second</dd>
+              <dt>next</dt><dd>gbm, seef · dec 2026</dd>
+            </dl>
+            <div style="margin-top:14px"><span class="ps">$</span> <span class="cursor"></span></div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <section id="skills">
-    <h2>Skills &amp; Tools</h2>
-    <dl class="skills">
-      <dt>security</dt>
-      <dd><span>Network Security &amp; VAPT</span><span>Network Forensics</span><span>Traffic Analysis</span><span>DPI / Middlebox Analysis</span><span>OSINT</span><span>Log Analysis</span><span>Incident Response</span></dd>
-      <dt>measurement</dt>
-      <dd><span>yarrp</span><span>ZMap</span><span>raw sockets</span><span>libnetfilter_queue</span><span>Scapy</span></dd>
-      <dt>offensive</dt>
-      <dd><span>Metasploit</span><span>Nmap</span><span>Burp Suite</span><span>Wireshark</span><span>Gobuster</span><span>John the Ripper</span><span>OWASP ZAP</span></dd>
-      <dt>protocols</dt>
-      <dd><span>TCP/IP</span><span>TLS</span><span>DNS</span><span>BGP</span></dd>
-      <dt>platforms</dt>
-      <dd><span>Linux (RHEL / Ubuntu / Kali)</span><span>Windows</span><span>macOS</span><span>Nginx</span></dd>
-      <dt>standards</dt>
-      <dd><span>ISO 27001</span><span>HIPAA</span><span>GDPR</span></dd>
-    </dl>
-  </section>
+  <!-- ───────── trace ───────── -->
+  <section id="trace">
+    <div class="wrap">
+      <div class="kicker">02 <span>/ trace</span></div>
+      <h2>Every hop so far. <span class="dim">Click one.</span></h2>
+      <div class="trace" id="traceBox">
+        <div class="term-bar"><i></i><i></i><i></i><span>devesh@svnit: ~</span></div>
+        <div class="term-body">
+          <div class="line"><span class="ps">$</span> traceroute devesh.pk</div>
+          <div class="line dim">traceroute to devesh.pk, 30 hops max, 60 byte packets</div>
 
-  <section>
-    <div class="two">
-      <div>
-        <h2>Education</h2>
-        <ul class="list">
-          <li><strong>SVNIT Surat</strong> — B.Tech, Electronics &amp; Communication Engineering<span class="sub">Nov 2024 – Apr 2028 · Computer Networks, Cloud Computing</span></li>
-          <li><strong>CBSE</strong>, Bahrain<span class="sub">Class XII 85.6% (2023) · Class X 84.6% (2021)</span></li>
-        </ul>
-      </div>
-      <div>
-        <h2>Certifications</h2>
-        <ul class="list">
-          <li>TCM Security Linux 100: Fundamentals</li>
-          <li>EC-Council Deep Web &amp; Cybersecurity</li>
-        </ul>
+          <details class="hop">
+            <summary><span class="n">1</span><span class="host">school.bh</span><span class="rtt">2021 · 2023</span><span class="note">CBSE, Bahrain</span><span class="plus">+</span></summary>
+            <div class="hop-body"><p>School years in Bahrain. Class X 84.6% (2021), Class XII 85.6% (2023).</p></div>
+          </details>
+
+          <details class="hop">
+            <summary><span class="n">2</span><span class="host">svnit.surat.in</span><span class="rtt">nov 2024 → '28</span><span class="note">B.Tech, Electronics &amp; Communication</span><span class="plus">+</span></summary>
+            <div class="hop-body"><p>B.Tech in Electronics &amp; Communication Engineering at SVNIT Surat. Came for electronics, stayed for the network stack. Currently taking Computer Networks and Cloud Computing.</p></div>
+          </details>
+
+          <details class="hop">
+            <summary><span class="n">3</span><span class="host">pentest.svnit</span><span class="rtt">jul 2025</span><span class="note">Found the holes, got the green light</span><span class="plus">+</span></summary>
+            <div class="hop-body"><p>Found multiple high-severity vulnerabilities in the institute's own web infrastructure, disclosed them responsibly, and was handed official authorization to run a full penetration test.</p><a href="#builds">→ builds</a></div>
+          </details>
+
+          <details class="hop">
+            <summary><span class="n">4</span><span class="host">ssh-gw.svnit</span><span class="rtt">aug 2025</span><span class="note">An SSH gateway that doesn't fall over</span><span class="plus">+</span></summary>
+            <div class="hop-body"><p>The Electronics department's SSH server kept crashing under 150+ students. Built a two-node active/active gateway on RHEL that doubled capacity and fails over in under 4 seconds.</p><a href="#builds">→ try the failover</a></div>
+          </details>
+
+          <details class="hop">
+            <summary><span class="n">5</span><span class="host">trustlab.iitb.ac.in</span><span class="rtt">may → jul 2026</span><span class="note">Censorship measurement research</span><span class="plus">+</span></summary>
+            <div class="hop-body"><p>Research at IIT Bombay's Trust Lab: measured a country's internet censorship from the outside, then located the box doing it.</p><a href="#hunt">→ the hunt</a></div>
+          </details>
+
+          <details class="hop next">
+            <summary><span class="n">6</span><span class="host">gbm.seef.bh</span><span class="rtt">dec 2026 → jan '27</span><span class="note">IT Infrastructure Intern <span class="pill r">incoming</span></span><span class="plus">+</span></summary>
+            <div class="hop-body"><p>Winter placement at Gulf Business Machines in Seef, Bahrain, across enterprise networking, Linux server platforms and cloud infrastructure delivery.</p></div>
+          </details>
+
+          <details class="hop unk">
+            <summary><span class="n">7</span><span class="host">* * *</span><span class="rtt">request timed out</span><span class="note">next hop unassigned</span><span class="plus">+</span></summary>
+            <div class="hop-body"><p>Nothing here yet. Could be you.</p><a href="#contact">→ get in touch</a></div>
+          </details>
+        </div>
       </div>
     </div>
   </section>
 
-  <section id="contact">
-    <h2>Contact</h2>
-    <ul class="list">
-      <li><span class="sub">Email</span><a href="mailto:deveshpkk@gmail.com">deveshpkk@gmail.com</a></li>
-      <li><span class="sub">LinkedIn</span><a href="https://www.linkedin.com/in/deveshpk/" target="_blank" rel="noopener">linkedin.com/in/deveshpk</a></li>
-    </ul>
+  <!-- ───────── hunt ───────── -->
+  <section id="hunt">
+    <div class="wrap">
+      <div class="kicker">03 <span>/ the hunt</span></div>
+      <h2>Internet Censorship Measurement &amp; Network Adversary Localization</h2>
+      <div class="hunt-head">
+        <span>Trust Lab, IIT Bombay</span><span>May – Jul 2026</span>
+        <a href="https://drive.google.com/file/d/1wyRvDdmKZNEnpe1qW-p_96rcS9Fq67z1/view?usp=sharing" target="_blank" rel="noopener">certificate ↗</a>
+        <a href="https://drive.google.com/file/d/1N8Qf-vL_ZCUBzhkZ17t8FfzlwAozSgUE/view?usp=sharing" target="_blank" rel="noopener">report ↗</a>
+      </div>
+
+      <div class="steps">
+        <div class="step reveal">
+          <div>
+            <div class="lbl">step 1</div>
+            <h3>Build a censor first.</h3>
+            <p>Before measuring a real one, I built my own: a 3-VM testbed with a Linux NFQUEUE middlebox in the path, censoring four protocols four different ways.</p>
+          </div>
+          <div>
+            <div class="testbed" aria-label="Testbed: client, censor, server">
+              <div class="box"><b>client</b><small>vm 1</small></div>
+              <div class="wire"></div>
+              <div class="box mid"><b>censor</b><small>vm 2 · nfqueue</small>
+                <div class="chips"><span>HTTP Host</span><span>TLS SNI</span><span>DNS</span><span>STUN</span></div>
+                <div class="chips r"><span>DROP</span><span>RST</span><span>block-page</span><span>forged answer</span></div>
+              </div>
+              <div class="wire b"></div>
+              <div class="box"><b>server</b><small>vm 3</small></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="step reveal">
+          <div>
+            <div class="lbl">step 2</div>
+            <h3>Sweep the whole country.</h3>
+            <p>A nation-wide measurement of the UAE: yarrp to find paths that were being tampered with, ZMap to probe them, then confirmation across four protocols.</p>
+            <p>Result: the DPI was stateless in the measured set.</p>
+          </div>
+          <div class="funnel" id="funnel">
+            <div class="frow"><div class="top"><b data-n="6030000">6,030,000</b><span>IPs measured</span></div><div class="bar"><i data-w="100"></i></div></div>
+            <div class="frow"><div class="top"><b data-n="593043">593,043</b><span>modified paths (yarrp)</span></div><div class="bar"><i data-w="85"></i></div></div>
+            <div class="frow last"><div class="top"><b data-n="509">509</b><span>confirmed censored hosts</span></div><div class="bar"><i data-w="40"></i></div></div>
+            <small>bar length on a log scale</small>
+          </div>
+        </div>
+
+        <div class="step reveal">
+          <div>
+            <div class="lbl">step 3</div>
+            <h3>Find where it sits.</h3>
+            <p>The resets were source-spoofed to look like they came from the server. TTL arithmetic still gave away how far away the injector really was.</p>
+            <p>Off-path vs. in-path classification, then an IP-ID side channel: <span style="color:var(--rst)">two co-located injectors</span> on the Etisalat (AS8966) backbone.</p>
+          </div>
+          <div class="ttl" aria-label="TTL-based localization">
+            <div class="ttl-row">
+              <div class="t ok"><i></i>1</div><div class="t ok"><i></i>2</div><div class="t ok"><i></i>3</div><div class="t ok"><i></i>4</div><div class="t ok"><i></i>5</div><div class="t hit"><i></i>6</div><div class="t"><i></i>7</div><div class="t"><i></i>8</div><div class="t"><i></i>server</div>
+            </div>
+            <div class="ttl-note"><span>ttl=1…5 → packets pass</span><b>ttl=6 → forged RST · injector ×2</b></div>
+            <p style="margin-top:22px;font-family:var(--sans);font-size:15.5px;color:var(--muted)">Then I packaged the whole pipeline as <a href="https://github.com/dev1237/phantomprobe" target="_blank" rel="noopener" class="mono">phantomprobe</a>: one portable C binary (libpcap only) that detects censorship, bounds how long residual filtering lasts, and attributes the middlebox from any vantage point.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="stats reveal">
+        <div class="stat"><b>6.03M</b><span>IPs measured for on-path censorship</span></div>
+        <div class="stat"><b>593K</b><span>paths flagged as modified</span></div>
+        <div class="stat"><b>509</b><span>censored hosts confirmed</span></div>
+        <div class="stat"><b>4</b><span>protocols: HTTP, TLS, DNS, STUN</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────── builds ───────── -->
+  <section id="builds">
+    <div class="wrap">
+      <div class="kicker">04 <span>/ builds</span></div>
+      <h2>Things I broke, and things that won't break.</h2>
+
+      <div class="builds">
+        <div class="build wide reveal">
+          <div style="display:flex;flex-direction:column">
+            <div class="lbl">aug 2025 · svnit electronics dept</div>
+            <h3>Highly-available SSH gateway</h3>
+            <p>150+ students on one SSH server meant crashes. I built a two-node active/active gateway on RHEL.</p>
+            <ul>
+              <li>Nginx stream (L4) round-robin over TCP/22 with passive health checks. Verified an exact 4:4 split across 8 sessions.</li>
+              <li>keepalived/VRRP on both nodes behind a floating virtual IP, so the load balancer isn't a single point of failure either.</li>
+              <li>Zero crashes since, capacity doubled to 300+ sessions, failover in under 4 s with no dropped sessions. Tested with a graceful shutdown and a forced kill.</li>
+            </ul>
+            <div class="stack"><span>RHEL</span><span>nginx stream</span><span>keepalived</span><span>VRRP</span></div>
+            <div class="links"><a href="https://github.com/dev1237/nginx_round-robin" target="_blank" rel="noopener">nginx_round-robin ↗</a><a href="https://github.com/dev1237/nginx_SPF" target="_blank" rel="noopener">nginx_SPF ↗</a></div>
+          </div>
+
+          <div class="demo" id="demo">
+            <div class="demo-top"><span>failover replay · simulated</span><button class="demo-btn" id="killBtn" type="button">kill -9 node-a</button></div>
+            <div class="vip-lane"><div class="vip" id="vip">VIP 10.0.0.100</div></div>
+            <div class="lbs">
+              <div class="node" id="nodeA"><b>node-a</b><span class="st m" id="stA">MASTER · nginx up</span></div>
+              <div class="node" id="nodeB"><b>node-b</b><span class="st" id="stB">BACKUP · nginx up</span></div>
+            </div>
+            <div class="links-mid">↓ round-robin · tcp/22 ↓</div>
+            <div class="bes">
+              <div class="node"><b>backend-1</b><span class="st">4 ssh sessions</span><div class="sess"><i></i><i></i><i></i><i></i></div></div>
+              <div class="node"><b>backend-2</b><span class="st">4 ssh sessions</span><div class="sess"><i></i><i></i><i></i><i></i></div></div>
+            </div>
+            <div class="log" id="log" aria-live="polite"><div class="t0">[ready] node-a holds the VIP · 8/8 sessions up</div></div>
+          </div>
+        </div>
+
+        <div class="build reveal">
+          <div class="lbl">jul 2025 · faculty-approved</div>
+          <h3>Pentesting my own college</h3>
+          <p>Found multiple high-severity vulnerabilities in SVNIT's web infrastructure and reported them. Instead of trouble, that earned faculty recognition and official authorization for a full penetration test.</p>
+          <ul>
+            <li>Enumerated LDAP, SMB, FTP and DNS with Metasploit; extracted password hashes and sensitive organizational metadata.</li>
+            <li>Delivered findings and remediation that tightened the institute's security posture.</li>
+          </ul>
+          <div class="stack"><span>Metasploit</span><span>Nmap</span><span>LDAP</span><span>SMB</span><span>VAPT</span></div>
+          <div class="links"><a href="https://drive.google.com/file/d/1gmT6MsYYnaFczBuqMsk3mMQ4N-sIX8EE/view?usp=drive_link" target="_blank" rel="noopener">documentation ↗</a></div>
+        </div>
+
+        <div class="build reveal">
+          <div class="lbl">2026 · open source</div>
+          <h3>phantomprobe</h3>
+          <p>The IIT Bombay pipeline, shrunk into one portable C binary that only needs libpcap. Point it at a network from any vantage point and it will:</p>
+          <ul>
+            <li>detect on-path censorship,</li>
+            <li>bound how long residual filtering lasts,</li>
+            <li>attribute the middlebox doing it.</li>
+          </ul>
+          <div class="stack"><span>C</span><span>libpcap</span><span>raw sockets</span><span>TTL</span><span>IP-ID</span></div>
+          <div class="links"><a href="https://github.com/dev1237/phantomprobe" target="_blank" rel="noopener">github ↗</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────── toolkit ───────── -->
+  <section id="toolkit">
+    <div class="wrap">
+      <div class="kicker">05 <span>/ toolkit</span></div>
+      <h2>What's in the bag.</h2>
+      <div class="tk reveal">
+        <div class="dir"><h3>security</h3><ul><li>Network VAPT</li><li>Network forensics</li><li>Traffic analysis</li><li>DPI / middlebox analysis</li><li>OSINT</li><li>Log analysis</li><li>Incident response</li></ul></div>
+        <div class="dir"><h3>measurement</h3><ul><li>yarrp</li><li>ZMap</li><li>raw sockets</li><li>libnetfilter_queue</li><li>Scapy</li></ul></div>
+        <div class="dir"><h3>offensive</h3><ul><li>Metasploit</li><li>Nmap</li><li>Burp Suite</li><li>Wireshark</li><li>Gobuster</li><li>John the Ripper</li><li>OWASP ZAP</li></ul></div>
+        <div class="dir"><h3>protocols</h3><ul><li>TCP/IP</li><li>TLS</li><li>DNS</li><li>BGP</li></ul></div>
+        <div class="dir"><h3>platforms</h3><ul><li>RHEL</li><li>Ubuntu</li><li>Kali</li><li>Windows</li><li>macOS</li><li>Nginx</li></ul></div>
+        <div class="dir"><h3>standards</h3><ul><li>ISO 27001</li><li>HIPAA</li><li>GDPR</li></ul></div>
+      </div>
+      <div class="certs"><span><b>certs:</b> TCM Security Linux 100: Fundamentals</span><span>EC-Council Deep Web &amp; Cybersecurity</span></div>
+    </div>
+  </section>
+
+  <!-- ───────── contact ───────── -->
+  <section id="contact" class="contact">
+    <div class="wrap">
+      <div class="kicker">06 <span>/ contact</span></div>
+      <h2>Next hop:<br><span>you.</span></h2>
+      <div class="clinks">
+        <a class="clink" href="mailto:deveshpkk@gmail.com"><span>deveshpkk@gmail.com<br><small>email</small></span><span class="arr">→</span></a>
+        <a class="clink" href="https://www.linkedin.com/in/deveshpk/" target="_blank" rel="noopener"><span>linkedin.com/in/deveshpk<br><small>linkedin</small></span><span class="arr">↗</span></a>
+      </div>
+    </div>
   </section>
 
 </main>
@@ -307,9 +610,245 @@ footer .wrap { border-top: 1px solid var(--line); padding-top: 24px; display: fl
 <footer>
   <div class="wrap">
     <span>© 2026 Devesh P.K.</span>
-    <span class="mono">dev1237.github.io</span>
+    <span>connection closed by foreign host.</span>
   </div>
 </footer>
 
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ── hero: packets crossing a network; middleboxes inject resets ── */
+  const cv = document.getElementById('net');
+  const ctx = cv.getContext('2d');
+  const SIG = '195,245,60', RST = '255,95,86';
+  let W, H, nodes, adj, edges, packets = [], rings = [], last = 0, spawn = 0, visible = true, raf = 0;
+  const mouse = { x: -1e4, y: -1e4 };
+
+  function rng(seed) { return () => (seed = (seed * 16807) % 2147483647, (seed - 1) / 2147483646); }
+
+  function build() {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const r = cv.getBoundingClientRect();
+    W = r.width; H = r.height;
+    cv.width = W * dpr; cv.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const rnd = rng(1237);
+    const cell = W < 700 ? 74 : 92;
+    nodes = [];
+    for (let y = cell * 0.5; y < H + cell * 0.5; y += cell)
+      for (let x = cell * 0.5; x < W + cell * 0.5; x += cell) {
+        if (rnd() < 0.3) continue;
+        nodes.push({ x: x + (rnd() - 0.5) * cell * 0.85, y: y + (rnd() - 0.5) * cell * 0.85, mb: false, glow: 0 });
+      }
+    adj = nodes.map(() => []); edges = [];
+    const seen = new Set();
+    nodes.forEach((n, i) => {
+      const near = nodes.map((m, j) => [j, (m.x - n.x) ** 2 + (m.y - n.y) ** 2])
+        .filter(e => e[0] !== i).sort((a, b) => a[1] - b[1]);
+      const k = 2 + (rnd() < 0.45 ? 1 : 0);
+      for (let t = 0; t < k && t < near.length; t++) {
+        const j = near[t][0], key = i < j ? i + ':' + j : j + ':' + i;
+        if (seen.has(key)) continue;
+        seen.add(key); edges.push([i, j]); adj[i].push(j); adj[j].push(i);
+      }
+    });
+    const wide = W >= 700;
+    const cands = nodes.map((_, i) => i)
+      .filter(i => nodes[i].x > W * (wide ? 0.55 : 0.2) && nodes[i].x < W - 120 && nodes[i].y > H * 0.18 && nodes[i].y < H * (wide ? 0.8 : 0.45))
+      .sort((a, b) => adj[b].length - adj[a].length);
+    const picked = [];
+    for (const i of cands) {
+      if (picked.every(p => Math.hypot(nodes[p].x - nodes[i].x, nodes[p].y - nodes[i].y) > 220)) picked.push(i);
+      if (picked.length === (wide ? 2 : 1)) break;
+    }
+    picked.forEach(i => nodes[i].mb = true);
+    packets = []; rings = [];
+  }
+
+  function path(a, b) {
+    const prev = new Array(nodes.length).fill(-1); prev[a] = a;
+    const q = [a];
+    while (q.length) {
+      const u = q.shift();
+      if (u === b) break;
+      for (const v of adj[u]) if (prev[v] < 0) { prev[v] = u; q.push(v); }
+    }
+    if (prev[b] < 0) return null;
+    const p = [b];
+    while (p[p.length - 1] !== a) p.push(prev[p[p.length - 1]]);
+    return p.reverse();
+  }
+
+  function launch() {
+    // bias traffic so a good share crosses a middlebox
+    const mbs = nodes.map((n, i) => n.mb ? i : -1).filter(i => i >= 0);
+    const a = Math.floor(Math.random() * nodes.length);
+    let p;
+    if (mbs.length && Math.random() < 0.5) {
+      const m = mbs[Math.floor(Math.random() * mbs.length)];
+      const b = Math.floor(Math.random() * nodes.length);
+      const p1 = path(a, m), p2 = path(m, b);
+      if (p1 && p2) p = p1.concat(p2.slice(1));
+    } else {
+      p = path(a, Math.floor(Math.random() * nodes.length));
+    }
+    if (p && p.length > 3 && p.length < 22) packets.push({ p, seg: 0, t: 0, rst: false, trail: [] });
+  }
+
+  function step(dt) {
+    spawn -= dt;
+    const cap = Math.min(46, nodes.length * 0.45);
+    if (spawn <= 0 && packets.length < cap) { launch(); spawn = 0.12 + Math.random() * 0.12; }
+    for (let k = packets.length - 1; k >= 0; k--) {
+      const pk = packets[k];
+      const A = nodes[pk.p[pk.seg]], B = nodes[pk.p[pk.seg + 1]];
+      const len = Math.hypot(B.x - A.x, B.y - A.y) || 1;
+      pk.t += (pk.rst ? 210 : 120) * dt / len;
+      if (pk.t >= 1) {
+        pk.seg++; pk.t = 0;
+        const n = nodes[pk.p[pk.seg]];
+        n.glow = 1;
+        if (pk.seg >= pk.p.length - 1) { packets.splice(k, 1); continue; }
+        if (n.mb && !pk.rst && Math.random() < 0.6) {
+          rings.push({ x: n.x, y: n.y, t: 0 });
+          const back = pk.p.slice(0, pk.seg + 1).reverse();
+          packets.splice(k, 1);
+          if (back.length > 1) packets.push({ p: back, seg: 0, t: 0, rst: true, trail: [] });
+          continue;
+        }
+      }
+      const C = nodes[pk.p[pk.seg]], D = nodes[pk.p[pk.seg + 1]];
+      pk.x = C.x + (D.x - C.x) * pk.t; pk.y = C.y + (D.y - C.y) * pk.t;
+      pk.trail.push(pk.x, pk.y);
+      if (pk.trail.length > 18) pk.trail.splice(0, 2);
+    }
+    for (let k = rings.length - 1; k >= 0; k--) { rings[k].t += dt; if (rings[k].t > 0.9) rings.splice(k, 1); }
+    for (const n of nodes) n.glow = Math.max(0, n.glow - dt * 1.8);
+  }
+
+  function near(x, y) { return Math.max(0, 1 - Math.hypot(x - mouse.x, y - mouse.y) / 180); }
+
+  function draw(now) {
+    ctx.clearRect(0, 0, W, H);
+    ctx.lineWidth = 1;
+    for (const [i, j] of edges) {
+      const a = nodes[i], b = nodes[j];
+      const h = near((a.x + b.x) / 2, (a.y + b.y) / 2);
+      ctx.strokeStyle = `rgba(150,160,175,${0.09 + h * 0.3})`;
+      ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+    }
+    for (const n of nodes) {
+      const h = near(n.x, n.y);
+      ctx.fillStyle = n.glow > 0.05 ? `rgba(${SIG},${0.35 + n.glow * 0.5})` : `rgba(200,205,215,${0.28 + h * 0.5})`;
+      ctx.beginPath(); ctx.arc(n.x, n.y, 1.7 + n.glow * 1.3 + h * 1.2, 0, 7); ctx.fill();
+    }
+    const pulse = 0.5 + 0.5 * Math.sin(now / 420);
+    ctx.font = '11px "Geist Mono", ui-monospace, monospace';
+    for (const n of nodes) if (n.mb) {
+      ctx.strokeStyle = `rgba(${RST},${0.55 + pulse * 0.35})`;
+      ctx.lineWidth = 1.4;
+      ctx.beginPath(); ctx.arc(n.x, n.y, 7 + pulse * 1.5, 0, 7); ctx.stroke();
+      ctx.fillStyle = `rgb(${RST})`;
+      ctx.beginPath(); ctx.arc(n.x, n.y, 3, 0, 7); ctx.fill();
+      ctx.fillStyle = `rgba(${RST},0.8)`;
+      ctx.fillText('middlebox', n.x + 13, n.y + 4);
+    }
+    ctx.lineWidth = 1;
+    for (const r of rings) {
+      const k = r.t / 0.9;
+      ctx.strokeStyle = `rgba(${RST},${(1 - k) * 0.8})`;
+      ctx.beginPath(); ctx.arc(r.x, r.y, 8 + k * 34, 0, 7); ctx.stroke();
+    }
+    for (const pk of packets) {
+      if (pk.x === undefined) continue;
+      const col = pk.rst ? RST : SIG, tr = pk.trail;
+      ctx.lineWidth = 1.6;
+      for (let i = 2; i < tr.length; i += 2) {
+        ctx.strokeStyle = `rgba(${col},${(i / tr.length) * 0.55})`;
+        ctx.beginPath(); ctx.moveTo(tr[i - 2], tr[i - 1]); ctx.lineTo(tr[i], tr[i + 1]); ctx.stroke();
+      }
+      ctx.fillStyle = `rgb(${col})`;
+      ctx.beginPath(); ctx.arc(pk.x, pk.y, pk.rst ? 2.6 : 2.2, 0, 7); ctx.fill();
+    }
+  }
+
+  function frame(now) {
+    const dt = Math.min(0.05, (now - last) / 1000 || 0);
+    last = now;
+    step(dt); draw(now);
+    raf = visible && !document.hidden ? requestAnimationFrame(frame) : 0;
+  }
+  function start() { if (!raf && !reduce) { last = performance.now(); raf = requestAnimationFrame(frame); } }
+
+  build();
+  if (reduce) draw(0); else start();
+  let rt;
+  addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => { build(); if (reduce) draw(0); }, 150); });
+  document.addEventListener('visibilitychange', start);
+  new IntersectionObserver(e => { visible = e[0].isIntersecting; if (visible) start(); }).observe(cv);
+  cv.parentElement.addEventListener('pointermove', e => { const r = cv.getBoundingClientRect(); mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top; });
+  cv.parentElement.addEventListener('pointerleave', () => { mouse.x = mouse.y = -1e4; });
+
+  /* ── scroll reveals ── */
+  const fmt = n => n.toLocaleString('en-US');
+  const io = new IntersectionObserver(entries => {
+    for (const e of entries) {
+      if (!e.isIntersecting) continue;
+      const el = e.target;
+      el.classList.add('on');
+      if (el.id === 'traceBox') el.querySelectorAll('.hop').forEach((h, i) => h.style.transitionDelay = (reduce ? 0 : i * 110) + 'ms');
+      if (el.id === 'funnel') {
+        el.querySelectorAll('.bar i').forEach(b => b.style.width = b.dataset.w + '%');
+        if (!reduce) el.querySelectorAll('[data-n]').forEach(b => {
+          const end = +b.dataset.n, t0 = performance.now();
+          const tick = now => {
+            const k = Math.min(1, (now - t0) / 1400), v = Math.round(end * (1 - Math.pow(1 - k, 3)));
+            b.textContent = fmt(v);
+            if (k < 1) requestAnimationFrame(tick);
+          };
+          requestAnimationFrame(tick);
+        });
+      }
+      io.unobserve(el);
+    }
+  }, { threshold: 0.2 });
+  document.querySelectorAll('.reveal, #traceBox, #funnel').forEach(el => io.observe(el));
+
+  /* ── failover replay: kill whichever node holds the VIP ── */
+  const btn = document.getElementById('killBtn'), vip = document.getElementById('vip'), log = document.getElementById('log');
+  const node = x => ({ box: document.getElementById('node' + x.toUpperCase()), st: document.getElementById('st' + x.toUpperCase()) });
+  const state = { master: 'a', dead: null };
+  let timers = [];
+  const say = (cls, txt) => { const d = document.createElement('div'); d.className = cls; d.textContent = txt; log.appendChild(d); };
+  btn.addEventListener('click', () => {
+    timers.forEach(clearTimeout); timers = []; log.innerHTML = '';
+    if (!state.dead) {
+      const m = state.master, o = m === 'a' ? 'b' : 'a', M = node(m);
+      state.dead = m; btn.disabled = true;
+      M.box.classList.add('dead'); M.st.textContent = 'DOWN · killed'; M.st.className = 'st';
+      vip.classList.add('float');
+      say('r', `[0.0s] node-${m}: SIGKILL, keepalived + nginx gone`);
+      timers.push(setTimeout(() => say('t0', `[1.0s] node-${o}: missed VRRP advert from node-${m}`), 900));
+      timers.push(setTimeout(() => say('t0', `[2.9s] node-${o}: master down timer expired`), 2300));
+      timers.push(setTimeout(() => {
+        const O = node(o);
+        vip.classList.remove('float'); vip.classList.toggle('b', o === 'b');
+        O.st.textContent = 'MASTER · nginx up'; O.st.className = 'st m';
+        say('g', `[<4s] node-${o}: MASTER, claimed VIP 10.0.0.100`);
+        say('g', '       sessions 8/8 alive · nobody got kicked');
+        state.master = o;
+        btn.textContent = `restore node-${m}`; btn.classList.add('restore'); btn.disabled = false;
+      }, 3300));
+    } else {
+      const d = state.dead, D = node(d);
+      state.dead = null;
+      D.box.classList.remove('dead'); D.st.textContent = 'BACKUP · nginx up'; D.st.className = 'st';
+      say('g', `[ok] node-${d} back as BACKUP · node-${state.master} keeps the VIP`);
+      btn.textContent = `kill -9 node-${state.master}`; btn.classList.remove('restore');
+    }
+  });
+})();
+</script>
 </body>
 </html>
